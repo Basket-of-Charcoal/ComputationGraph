@@ -9,6 +9,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+blade-bin
 blade-bin/
 build/
 build64_release/
