@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/operation/operation.h"
+#include "node.h"
 
 namespace compute_graph
 {
