@@ -16,7 +16,7 @@ namespace compute_graph
         int allocate();
 
         // total data size ()
-        int total_size();
+        size_t total_size();
 
     public:
         // disable default constructor
