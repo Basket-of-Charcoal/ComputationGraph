@@ -15,5 +15,5 @@ std::string to_str(std::vector<T> data)
         }
         ret += std::to_string(d);
     }
-    return "(" + ret + ")";
+    return "[" + ret + "]";
 }

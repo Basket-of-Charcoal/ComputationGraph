@@ -14,6 +14,6 @@ namespace compute_graph
 
         OpAdd(Node &a, Node &b);
 
-        virtual Tensor compute();
+        Tensor compute();
     };
 } // namespace compute_graph

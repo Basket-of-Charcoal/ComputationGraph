@@ -9,12 +9,12 @@ namespace compute_graph
     class Operation : public Node
     {
     protected:
-        std::vector<Node &> _input;
+        std::vector<Node *> _input;
 
     public:
         Operation() = default;
         ~Operation() = default;
 
-        virtual Tensor compute();
+        virtual Tensor compute() = 0;
     };
 } // namespace compute_graph
