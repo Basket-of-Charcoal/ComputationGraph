@@ -43,7 +43,7 @@ namespace compute_graph
 
         size_t dim() const;
         shape_t shape() const;
-        void reshape(shape_t &);
+        void reshape(const shape_t &);
         std::string expr() const;
 
         bool operator<(const Tensor &other) const;

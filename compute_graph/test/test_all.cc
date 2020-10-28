@@ -3,6 +3,6 @@
 
 int main()
 {
-    test_tensor_construct();
+    tensor_test();
     return 0;
 }

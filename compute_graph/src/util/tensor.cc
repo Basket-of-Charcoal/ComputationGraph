@@ -73,9 +73,9 @@ namespace compute_graph
 
     Tensor::Tensor(shape_t shape, std::vector<data_t> data)
     {
-        size_t total_sz = total_size();
+        size_t total_sz = cal_total_size(shape);
         size_t data_sz = data.size();
-        if (!data_sz || total_sz % data_sz)
+        if ((!data_sz) || total_sz % data_sz)
         {
             ERROR("tensor shape %s cannot be divisiable by data size %zu",
                   to_str(shape).c_str(), data_sz);
@@ -113,7 +113,7 @@ namespace compute_graph
         return this->_shape;
     }
 
-    void Tensor::reshape(shape_t &new_shape)
+    void Tensor::reshape(const shape_t &new_shape)
     {
         if (!multiple_shape(this->_shape, new_shape))
         {
@@ -122,7 +122,13 @@ namespace compute_graph
             exit(FAILURE);
         }
 
+        // automatically deduce the size of the last dimension
+        size_t multiple = total_size() / cal_total_size(new_shape);
         this->_shape = shape_t(new_shape);
+        if (multiple != 1)
+        {
+            this->_shape.push_back(multiple);
+        }
     }
 
     std::string Tensor::expr() const
@@ -161,7 +167,7 @@ namespace compute_graph
         size_t total_sz_a = cal_total_size(a);
         size_t total_sz_b = cal_total_size(b);
 
-        if (!total_sz_a || !total_sz_b || total_sz_a % total_sz_b)
+        if ((!total_sz_a) || (!total_sz_b) || (total_sz_a % total_sz_b))
         {
             return false;
         }
