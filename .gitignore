@@ -12,6 +12,7 @@ __pycache__/
 blade-bin
 blade-bin/
 build/
+build64_debug/
 build64_release/
 develop-eggs/
 dist/
