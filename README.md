@@ -1,4 +1,4 @@
-# MACHINE LEARNING
+# COMPUTE GRAPH
 
 ![MIT/Apache][li] ![LoC][lo]
 
