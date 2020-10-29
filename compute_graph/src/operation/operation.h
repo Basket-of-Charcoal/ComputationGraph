@@ -16,5 +16,6 @@ namespace compute_graph
         ~Operation() = default;
 
         virtual Tensor compute() = 0;
+        virtual std::vector<Tensor> gradient() = 0;
     };
 } // namespace compute_graph

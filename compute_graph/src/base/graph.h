@@ -15,5 +15,7 @@ namespace compute_graph
     public:
         Graph() = default;
         ~Graph() = default;
+
+        void as_default();
     };
 } // namespace compute_graph

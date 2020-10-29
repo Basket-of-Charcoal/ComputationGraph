@@ -12,7 +12,9 @@ cc_binary(
     name = 'unit_test_all',
     srcs = [
         'test/test_all.cc',
-        'src/operation/op_add.cc',
+        'src/base/graph.cc',
+        'src/base/session.cc',
+        'src/operation/operation_add.cc',
         'src/util/tensor.cc'
     ],
     defs = ['UNIT_TEST'],
