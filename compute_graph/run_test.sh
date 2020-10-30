@@ -7,6 +7,11 @@ echo "build path: $cur_path"
 
 blade build :unit_test_all -pdebug
 
+if [ "$?" != 0 ];
+then echo "---------- build failed ----------"
+exit 1
+fi
+
 echo "---------- build succeed ----------"
 echo "---------- run test ----------"
 
