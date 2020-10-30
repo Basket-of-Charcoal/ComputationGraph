@@ -17,15 +17,20 @@ void test_tensor_construct()
     Tensor tensor_a = Tensor(shape);
     assert(tensor_a.expr() == "Tensor[3, 5, 7]");
 
+    INFO("check 1");
     Tensor tensor_b = Tensor(tensor_a);
     Tensor tensor_c = Tensor(shape_t({5, 7}), 0.7f);
 
+    INFO("check 2");
     tensor_b = tensor_b + tensor_c;
+
+    INFO("check 3");
     assert(tensor_b != tensor_a);
 
     float inp[] = {0.2f, 0.5f, -1.4f, 3.3f};
     tensor_b = Tensor(shape_t({2, 2}), inp);
 
+    INFO("xxx %s", tensor_b.expr().c_str());
     assert(tensor_b ==
            Tensor(shape_t({2, 2}), std::vector<data_t>({0.2f, 0.5f, -1.4f, 3.3f})));
 }

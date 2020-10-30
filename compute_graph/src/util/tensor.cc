@@ -204,6 +204,7 @@ namespace compute_graph
         size_t total_sz = total_size();
         for (size_t i = 0; i < total_sz; i++)
         {
+            INFO("%f %f", this->_data[i], other._data[i]);
             if (!float_equals(this->_data[i], other._data[i]))
             {
                 return false;

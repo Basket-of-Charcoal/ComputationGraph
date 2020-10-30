@@ -15,7 +15,9 @@ cc_binary(
         'src/base/graph.cc',
         'src/base/session.cc',
         'src/operation/operation_add.cc',
-        'src/util/tensor.cc'
+        'src/placeholder/placeholder.cc',
+        'src/util/tensor.cc',
+        'src/value/constant.cc'
     ],
     defs = ['UNIT_TEST'],
     incs = ['.'],
