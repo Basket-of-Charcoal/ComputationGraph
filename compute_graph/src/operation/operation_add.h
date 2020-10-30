@@ -14,7 +14,7 @@ namespace compute_graph
 
         OperationAdd(Node &a, Node &b);
 
-        Tensor compute();
+        const Tensor &compute();
         std::vector<Tensor> gradient();
     };
 } // namespace compute_graph

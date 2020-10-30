@@ -11,9 +11,11 @@ namespace compute_graph
         this->_input.push_back(&b);
     }
 
-    Tensor OperationAdd::compute()
+    const Tensor &OperationAdd::compute()
     {
-        return this->_input[FIRST]->compute() + this->_input[SECOND]->compute();
+        delete this->_value;
+        this->_value = new Tensor(this->_input[FIRST]->compute() + this->_input[SECOND]->compute());
+        return *this->_value;
     }
 
     std::vector<Tensor> OperationAdd::gradient()

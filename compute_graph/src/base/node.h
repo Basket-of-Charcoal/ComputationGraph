@@ -13,7 +13,7 @@ namespace compute_graph
 
     public:
         Node() = default;
-        virtual ~Node() = default;
-        virtual Tensor compute() = 0;
+        virtual ~Node(){};
+        virtual const Tensor &compute() = 0;
     };
 } // namespace compute_graph

@@ -9,6 +9,6 @@ namespace compute_graph
     public:
         Placeholder() = default;
         ~Placeholder() = default;
-        Tensor compute();
+        const Tensor &compute();
     };
 } // namespace compute_graph

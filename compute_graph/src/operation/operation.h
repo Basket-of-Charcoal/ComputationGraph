@@ -10,12 +10,16 @@ namespace compute_graph
     {
     protected:
         std::vector<Node *> _input;
+        Tensor *_value;
 
     public:
         Operation() = default;
-        ~Operation() = default;
+        ~Operation()
+        {
+            delete this->_value;
+        };
 
-        virtual Tensor compute() = 0;
+        virtual const Tensor &compute() = 0;
         virtual std::vector<Tensor> gradient() = 0;
-    };
+    }; // namespace compute_graph
 } // namespace compute_graph
