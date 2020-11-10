@@ -13,13 +13,11 @@ namespace compute_graph
         Tensor *_value;
 
     public:
-        Operation() = default;
-        ~Operation()
-        {
-            delete this->_value;
-        };
+        Operation();
+        ~Operation();
 
         virtual const Tensor &compute() = 0;
         virtual std::vector<Tensor> gradient() = 0;
+        void reset_buff();
     }; // namespace compute_graph
 } // namespace compute_graph

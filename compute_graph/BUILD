@@ -14,6 +14,7 @@ cc_binary(
         'test/test_all.cc',
         'src/base/graph.cc',
         'src/base/session.cc',
+        'src/operation/operation.cc',
         'src/operation/operation_add.cc',
         'src/placeholder/placeholder.cc',
         'src/util/tensor.cc',
