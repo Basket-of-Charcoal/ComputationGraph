@@ -12,7 +12,7 @@ namespace compute_graph
 
     class Tensor
     {
-        shape_t _shape;
+        shape_t *_shape;
         data_t *_data;
 
         // allocate memory according to _shape
@@ -33,29 +33,30 @@ namespace compute_graph
     public:
         // disable default constructor
         Tensor() = delete;
-        ~Tensor() = default;
+        ~Tensor();
 
         Tensor(const Tensor &);
-        Tensor(shape_t);
-        Tensor(shape_t, data_t);
-        Tensor(shape_t, std::vector<data_t>);
-        Tensor(shape_t, data_t *);
+        Tensor(const shape_t &);
+        Tensor(const shape_t &, data_t);
+        Tensor(const shape_t &, const std::vector<data_t> &);
+        Tensor(const shape_t &, data_t *);
 
         size_t dim() const;
-        shape_t shape() const;
+        const shape_t &shape() const;
         void reshape(const shape_t &);
         std::string expr() const;
 
-        bool operator<(const Tensor &other) const;
-        bool operator==(const Tensor &other) const;
-        bool operator!=(const Tensor &other) const;
-        Tensor operator+(const Tensor &other) const;
-        Tensor operator-(const Tensor &other) const;
-        Tensor operator*(const data_t &other) const;
-        Tensor operator/(const data_t &other) const;
-        Tensor &operator+=(const Tensor &other);
-        Tensor &operator-=(const Tensor &other);
-        Tensor &operator*=(const data_t &other);
-        Tensor &operator/=(const data_t &other);
+        Tensor &operator=(const Tensor &);
+        bool operator<(const Tensor &) const;
+        bool operator==(const Tensor &) const;
+        bool operator!=(const Tensor &) const;
+        Tensor operator+(const Tensor &) const;
+        Tensor operator-(const Tensor &) const;
+        Tensor operator*(const data_t &) const;
+        Tensor operator/(const data_t &) const;
+        Tensor &operator+=(const Tensor &);
+        Tensor &operator-=(const Tensor &);
+        Tensor &operator*=(const data_t &);
+        Tensor &operator/=(const data_t &);
     };
 } // namespace compute_graph

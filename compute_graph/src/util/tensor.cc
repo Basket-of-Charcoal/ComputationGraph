@@ -13,7 +13,7 @@ namespace compute_graph
         size_t size = total_size();
         try
         {
-            _data = new data_t[size];
+            this->_data = new data_t[size];
         }
         catch (std::exception &e)
         {
@@ -25,7 +25,7 @@ namespace compute_graph
 
     size_t Tensor::total_size() const
     {
-        return cal_total_size(this->_shape);
+        return cal_total_size(*this->_shape);
     }
 
     size_t Tensor::cal_total_size(const shape_t &shape) const
@@ -38,16 +38,22 @@ namespace compute_graph
         return ret;
     }
 
+    Tensor::~Tensor()
+    {
+        delete this->_shape;
+        delete[] this->_data;
+    }
+
     Tensor::Tensor(const Tensor &other)
     {
-        this->_shape = shape_t(other._shape);
+        this->_shape = new shape_t(other.shape());
         allocate();
         memcpy(this->_data, other._data, total_size() * sizeof(data_t));
     }
 
-    Tensor::Tensor(shape_t shape)
+    Tensor::Tensor(const shape_t &shape)
     {
-        this->_shape = shape_t(shape);
+        this->_shape = new shape_t(shape);
         allocate();
 
         std::default_random_engine e;
@@ -59,9 +65,9 @@ namespace compute_graph
         }
     }
 
-    Tensor::Tensor(shape_t shape, data_t data)
+    Tensor::Tensor(const shape_t &shape, data_t data)
     {
-        this->_shape = shape_t(shape);
+        this->_shape = new shape_t(shape);
         allocate();
 
         size_t total_sz = total_size();
@@ -71,7 +77,7 @@ namespace compute_graph
         }
     }
 
-    Tensor::Tensor(shape_t shape, std::vector<data_t> data)
+    Tensor::Tensor(const shape_t &shape, const std::vector<data_t> &data)
     {
         size_t total_sz = cal_total_size(shape);
         size_t data_sz = data.size();
@@ -82,7 +88,7 @@ namespace compute_graph
             exit(FAILURE);
         }
 
-        this->_shape = shape_t(shape);
+        this->_shape = new shape_t(shape);
         allocate();
 
         for (size_t i = 0; i < total_sz; i++)
@@ -91,9 +97,9 @@ namespace compute_graph
         }
     }
 
-    Tensor::Tensor(shape_t shape, data_t *data)
+    Tensor::Tensor(const shape_t &shape, data_t *data)
     {
-        this->_shape = shape_t(shape);
+        this->_shape = new shape_t(shape);
         allocate();
 
         size_t total_sz = total_size();
@@ -105,40 +111,40 @@ namespace compute_graph
 
     size_t Tensor::dim() const
     {
-        return this->_shape.size();
+        return this->shape().size();
     }
 
-    shape_t Tensor::shape() const
+    const shape_t &Tensor::shape() const
     {
-        return this->_shape;
+        return *this->_shape;
     }
 
     void Tensor::reshape(const shape_t &new_shape)
     {
-        if (!multiple_shape(this->_shape, new_shape))
+        if (!multiple_shape(this->shape(), new_shape))
         {
             ERROR("tensor shape %s cannot be convert by data shape %s",
-                  to_str(new_shape).c_str(), to_str(this->_shape).c_str());
+                  to_str(new_shape).c_str(), to_str(this->shape()).c_str());
             exit(FAILURE);
         }
 
         // automatically deduce the size of the last dimension
         size_t multiple = total_size() / cal_total_size(new_shape);
-        this->_shape = shape_t(new_shape);
+        this->_shape = new shape_t(new_shape);
         if (multiple != 1)
         {
-            this->_shape.push_back(multiple);
+            (*this->_shape).push_back(multiple);
         }
     }
 
     std::string Tensor::expr() const
     {
-        return "Tensor" + to_str(_shape);
+        return "Tensor" + to_str(this->shape());
     }
 
     bool Tensor::same_shape(const Tensor &a, const Tensor &b) const
     {
-        return same_shape(a._shape, b._shape);
+        return same_shape(a.shape(), b.shape());
     }
 
     bool Tensor::same_shape(const shape_t &a, const shape_t &b) const
@@ -159,7 +165,7 @@ namespace compute_graph
 
     bool Tensor::multiple_shape(const Tensor &a, const Tensor &b) const
     {
-        return multiple_shape(a._shape, b._shape);
+        return multiple_shape(a.shape(), b.shape());
     }
 
     bool Tensor::multiple_shape(const shape_t &a, const shape_t &b) const
@@ -174,12 +180,24 @@ namespace compute_graph
         return true;
     }
 
+    Tensor &Tensor::operator=(const Tensor &other)
+    {
+        delete this->_shape;
+        delete[] this->_data;
+
+        this->_shape = new shape_t(other.shape());
+        allocate();
+        memcpy(this->_data, other._data, total_size() * sizeof(data_t));
+
+        return *this;
+    }
+
     bool Tensor::operator<(const Tensor &other) const
     {
         if (!same_shape(*this, other))
         {
             ERROR("can not compare tensor with different shape %s, %s",
-                  to_str(this->_shape).c_str(), to_str(other._shape).c_str());
+                  to_str(this->shape()).c_str(), to_str(other.shape()).c_str());
             exit(FAILURE);
         }
         size_t total_sz = total_size();
@@ -198,13 +216,12 @@ namespace compute_graph
         if (!same_shape(*this, other))
         {
             ERROR("can not compare tensor with different shape %s, %s",
-                  to_str(this->_shape).c_str(), to_str(other._shape).c_str());
+                  to_str(this->shape()).c_str(), to_str(other.shape()).c_str());
             exit(FAILURE);
         }
         size_t total_sz = total_size();
         for (size_t i = 0; i < total_sz; i++)
         {
-            INFO("%f %f", this->_data[i], other._data[i]);
             if (!float_equals(this->_data[i], other._data[i]))
             {
                 return false;
@@ -248,10 +265,10 @@ namespace compute_graph
 
     Tensor &Tensor::operator+=(const Tensor &other)
     {
-        if (!multiple_shape(this->_shape, other._shape))
+        if (!multiple_shape(this->shape(), other.shape()))
         {
             ERROR("can not add tensors with unmultiple shape %s, %s",
-                  to_str(this->_shape).c_str(), to_str(other._shape).c_str());
+                  to_str(this->shape()).c_str(), to_str(other.shape()).c_str());
             exit(FAILURE);
         }
 
@@ -266,10 +283,10 @@ namespace compute_graph
 
     Tensor &Tensor::operator-=(const Tensor &other)
     {
-        if (!multiple_shape(this->_shape, other._shape))
+        if (!multiple_shape(this->shape(), other.shape()))
         {
             ERROR("can not minus tensors with unmultiple shape %s, %s",
-                  to_str(this->_shape).c_str(), to_str(other._shape).c_str());
+                  to_str(this->shape()).c_str(), to_str(other.shape()).c_str());
             exit(FAILURE);
         }
 

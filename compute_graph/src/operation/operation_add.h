@@ -14,7 +14,7 @@ namespace compute_graph
 
         OperationAdd(Node &a, Node &b);
 
-        const Tensor &compute();
-        std::vector<Tensor> gradient();
+        const Tensor &compute() override;
+        std::vector<Tensor> gradient() override;
     };
 } // namespace compute_graph
