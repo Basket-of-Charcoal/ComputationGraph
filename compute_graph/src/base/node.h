@@ -12,8 +12,8 @@ namespace compute_graph
         Graph *_graph;
 
     public:
-        Node() = default;
-        virtual ~Node(){};
+        Node();
+        virtual ~Node() = default;
         virtual const Tensor &compute() = 0;
     };
 } // namespace compute_graph

@@ -1,6 +1,8 @@
 #include "graph.h"
 #include "session.h"
+#include "src/base/status.h"
 #include "src/operation/operation.h"
+#include "src/util/log.h"
 
 namespace compute_graph
 {
@@ -17,8 +19,19 @@ namespace compute_graph
         }
     }
 
-    void Graph::add_operation(Operation *op)
+    void Graph::register_operation(Operation *op)
     {
         this->_operations.push_back(op);
+    }
+
+    const Tensor &Graph::get_placeholder_value(const std::string &name)
+    {
+        auto iter = this->_placeholders.find(name);
+        if (iter == this->_placeholders.end())
+        {
+            ERROR("key \"%s\" can not be find in feed_dict.", name.c_str());
+            exit(FAILURE);
+        }
+        return iter->second;
     }
 } // namespace compute_graph

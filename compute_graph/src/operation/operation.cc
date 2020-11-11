@@ -5,7 +5,7 @@ namespace compute_graph
 {
     Operation::Operation()
     {
-        Session::get_instance().get_graph().add_operation(this);
+        Session::get_instance().get_graph().register_operation(this);
     }
 
     Operation::~Operation()

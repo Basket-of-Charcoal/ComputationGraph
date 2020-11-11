@@ -10,7 +10,7 @@ namespace compute_graph
 {
     class Graph
     {
-        std::map<std::string, Node *> _placeholders;
+        std::map<std::string, Tensor> _placeholders;
         std::vector<Node *> _variables, _constants;
         std::vector<Operation *> _operations;
 
@@ -20,6 +20,8 @@ namespace compute_graph
 
         void as_default();
         void reset_buff();
-        void add_operation(Operation *);
+        void feed_placeholder(const std::map<std::string, Tensor> &);
+        void register_operation(Operation *);
+        const Tensor &get_placeholder_value(const std::string &);
     };
 } // namespace compute_graph

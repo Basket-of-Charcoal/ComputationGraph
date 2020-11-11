@@ -13,6 +13,7 @@ cc_binary(
     srcs = [
         'test/test_all.cc',
         'src/base/graph.cc',
+        'src/base/node.cc',
         'src/base/session.cc',
         'src/operation/operation.cc',
         'src/operation/operation_add.cc',

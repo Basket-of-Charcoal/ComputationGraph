@@ -1,7 +1,8 @@
 #pragma once
 
-#include "src/util/log.h"
+#include "src/base/graph.h"
 #include "src/operation/operation_add.h"
+#include "src/util/log.h"
 #include "src/value/constant.h"
 
 namespace compute_graph
@@ -33,6 +34,9 @@ namespace compute_graph
     void constant_test()
     {
         INFO("start constant test");
+        Graph graph = Graph();
+        graph.as_default();
+
         test_constant_construct();
         test_constant_calculate();
         INFO("constant test succeed");

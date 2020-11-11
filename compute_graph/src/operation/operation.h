@@ -19,5 +19,5 @@ namespace compute_graph
         virtual const Tensor &compute() = 0;
         virtual std::vector<Tensor> gradient() = 0;
         void reset_buff();
-    }; // namespace compute_graph
+    };
 } // namespace compute_graph
