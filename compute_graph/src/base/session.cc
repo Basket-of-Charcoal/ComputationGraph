@@ -1,6 +1,4 @@
 #include "session.h"
-#include "src/base/status.h"
-#include "src/util/log.h"
 
 namespace compute_graph
 {
@@ -35,28 +33,6 @@ namespace compute_graph
             exit(FAILURE);
         }
         return *graph;
-    }
-
-    Tensor Session::run(Node &target)
-    {
-        return Session::run(target, std::map<std::string, Tensor>());
-    }
-
-    Tensor Session::run(Node &target, const std::map<std::string, Tensor> &feed_dict)
-    {
-        Session &session = Session::get_instance();
-        if (session._p_graph == NULL)
-        {
-            ERROR("graph is not defined yet.");
-            exit(FAILURE);
-        }
-        session._p_graph->reset_buff();
-        for (auto it : feed_dict)
-        {
-            INFO("%s", it.first.c_str());
-        }
-
-        return target.compute();
     }
 
     Session *Session::_p_instance = NULL;

@@ -6,13 +6,13 @@
 
 namespace compute_graph
 {
-    class OperationAdd : public Operation
+    class OperationSub : public Operation
     {
     public:
-        OperationAdd() = delete;
-        ~OperationAdd() = default;
+        OperationSub() = delete;
+        ~OperationSub() = default;
 
-        OperationAdd(Node &, Node &);
+        OperationSub(Node &, Node &);
 
         const Tensor &compute() override;
         std::vector<Tensor> gradient() override;

@@ -109,6 +109,14 @@ namespace compute_graph
         }
     }
 
+    Tensor::Tensor(const data_t &data)
+    {
+        this->_shape = new shape_t({1});
+        allocate();
+
+        this->_data[0] = data;
+    }
+
     size_t Tensor::dim() const
     {
         return this->shape().size();

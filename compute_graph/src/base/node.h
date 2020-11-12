@@ -5,6 +5,8 @@
 namespace compute_graph
 {
     class Graph;
+    class OperationAdd;
+    class OperationSub;
 
     class Node
     {
@@ -15,5 +17,8 @@ namespace compute_graph
         Node();
         virtual ~Node() = default;
         virtual const Tensor &compute() = 0;
+
+        OperationAdd operator+(Node &);
+        OperationSub operator-(Node &);
     };
 } // namespace compute_graph

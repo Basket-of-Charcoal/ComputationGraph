@@ -41,6 +41,9 @@ namespace compute_graph
         Tensor(const shape_t &, const std::vector<data_t> &);
         Tensor(const shape_t &, data_t *);
 
+        // single float variable
+        Tensor(const data_t &);
+
         size_t dim() const;
         const shape_t &shape() const;
         void reshape(const shape_t &);
@@ -52,10 +55,12 @@ namespace compute_graph
         bool operator!=(const Tensor &) const;
         Tensor operator+(const Tensor &) const;
         Tensor operator-(const Tensor &) const;
+        Tensor operator*(const Tensor &) const;
         Tensor operator*(const data_t &) const;
         Tensor operator/(const data_t &) const;
         Tensor &operator+=(const Tensor &);
         Tensor &operator-=(const Tensor &);
+        Tensor &operator*=(const Tensor &);
         Tensor &operator*=(const data_t &);
         Tensor &operator/=(const data_t &);
     };

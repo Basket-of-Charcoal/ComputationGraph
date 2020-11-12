@@ -17,6 +17,7 @@ cc_binary(
         'src/base/session.cc',
         'src/operation/operation.cc',
         'src/operation/operation_add.cc',
+        'src/operation/operation_sub.cc',
         'src/placeholder/placeholder.cc',
         'src/util/tensor.cc',
         'src/value/constant.cc'

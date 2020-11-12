@@ -16,7 +16,7 @@ namespace compute_graph
 
     public:
         Graph() = default;
-        ~Graph() = default;
+        ~Graph();
 
         void as_default();
         void reset_buff();
